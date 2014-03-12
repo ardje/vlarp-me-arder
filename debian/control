@@ -1,0 +1,17 @@
+Source: vlarp-me-arder
+Section: network
+Priority: extra
+Maintainer: Ard van Breemen <ard@kwaak.net>
+Build-Depends: debhelper(>=3), debconf-utils
+Standards-Version: 3.6.2
+
+Package: vlarp-me-arder
+Architecture: any
+Depends: ${shlibs:Depends}
+Section: misc
+Description: arpanounceer daemon to help with L2/L3 IP address failovers on vlans
+ This package contains a daemon which helps with L2/L3 IP address failovers for
+ multiple vlans by continously arping on the network.
+ .
+ A typical application is a high-availability single wire firewall setup with
+ lots of vlans.

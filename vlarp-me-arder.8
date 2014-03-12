@@ -1,0 +1,59 @@
+.TH VLARP-ME-ARDER 8
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.SH NAME
+vlarp-me-arder \- vlan based arp announce daemon
+.SH SYNOPSIS
+.B vlarp-me-arder
+.I [lots of long options]
+.SH "DESCRIPTION"
+The
+.B vlarp-me-arder
+daemon helps you with L2/L3 failover configurations by continously announcing
+it's IP addresses and mac-addresses on a number of vlans by sending them out
+directly on the raw ethernet device with a vlan tag prepended.
+.SH OPTIONS
+.TP
+.B --device [interface\-name]
+Bind to the raw ethernet device [interface\-name] to send out vlan tagged arp
+announces.
+.TP
+.B --daemon
+Run as a daemon.
+.TP
+.B --pidfile [pidfile\-name]
+Name of the pidfile for daemon mode
+.TP
+
+.B --config [configfile\-name]
+Name of the config file.
+.TP
+
+.B --master [masterfile\-name]
+This option indicates that masterfile\-name must exist before starting to
+announce.
+.TP
+.B --poll [pollinterval]
+This indicates the number of seconds to wait between the testing of the
+existence of masterfile\-name. (Defaults to 1 second)
+.TP
+
+.B --interval [announceinterval]
+This indicates the number of seconds to wait between each announce run.
+(Defaults to 1 second).
+
+.SH NOTES
+NONE
+.br
+.SH FILES
+.I /etc/vlarp-me-arder/vlarp-me-arder.conf
+.br
+.I /var/run/vlarp-me-arder.pid
+.br
+.I /var/run/damaster
+.br
+.SH SEE ALSO
+ip(8), ifconfig(8), vconfig(8), mvconfig(8)
+.SH AUTHORS
+This manual page was written by Ard van Breemen <ard@kwaak.net>
+.br

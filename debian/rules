@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# debian/rules file - for vlarp-me-arder
+# STATUS
+# experimental
+
+package=vlarp-me-arder
+PKGVERSION=$(shell dpkg-parsechangelog | grep ^Version: | cut -d ' ' -f 2)
+
+export DH_VERBOSE=1
+export DH_COMPAT=3
+
+binary-arch: checkroot
+	dh_testdir
+	dh_testroot
+	dh_installdirs -pvlarp-me-arder DEBIAN usr/sbin
+	dh_installdocs -pvlarp-me-arder README vlarp-me-arder.conf.example
+	dh_installman vlarp-me-arder.8
+	dh_installchangelogs -pvlarp-me-arder
+	install -d debian/vlarp-me-arder/etc/vlarp-me-arder/
+	install -d debian/vlarp-me-arder/etc/init.d/
+	install -d debian/vlarp-me-arder/usr/sbin/
+	install -d debian/vlarp-me-arder/etc/default
+	install -m755 vlarp-me-arder-rc debian/vlarp-me-arder/etc/init.d/vlarp-me-arder
+	install -m644 vlarp-me-arder.default debian/vlarp-me-arder/etc/default/vlarp-me-arder
+	install -m755 vlarp-me-arder debian/vlarp-me-arder/usr/sbin
+	dh_strip -pvlarp-me-arder
+	dh_fixperms -pvlarp-me-arder
+	dh_compress -pvlarp-me-arder
+	dh_shlibdeps
+	dh_gencontrol -pvlarp-me-arder
+	dh_installdeb
+	dh_md5sums
+	dh_builddeb -pvlarp-me-arder
+
+binary: binary-arch
+
+build: checkroot
+	$(MAKE)
+
+clean:
+	$(MAKE) clean
+	dh_clean
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+

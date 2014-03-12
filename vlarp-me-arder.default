@@ -1,0 +1,2 @@
+# Define the device on which to announce arps
+# DEVICE=eth0

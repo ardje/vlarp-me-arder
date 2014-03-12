@@ -1,0 +1,7 @@
+Vlarp-me-arder just continuously update neighbour arp caches with our mac address.
+This can be useful in the following circumstances:
+1-IP address failover: the neigbours are harassed with the correct mac-address,
+so even recovering from split brains is no problem.
+2-Mac (and ip) address failover: combined with macvlan's or arp_ignore setting
+8, we've got ourselves a pure L2 failover helper. Use keepalived or vrrpd for
+master-slave contests.

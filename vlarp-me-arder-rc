@@ -1,0 +1,54 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          vlarp
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: BOINC core client
+# Description:       Gratious arp daemon to get clustered switches to behave.
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/bin
+
+DAEMON="/usr/sbin/vlarp-me-arder"
+test -f ${DAEMON} || exit 0
+PIDFILE=/var/run/vlarp-me-arder.pid
+MASTERFILE=/var/run/damaster
+CONFIGFILE=/etc/vlarp-me-arder/vlarp-me-arder.conf
+INTERVAL=30
+POLL=1
+test -f /etc/default/vlarp-me-arder && . /etc/default/vlarp-me-arder
+[ -z "$DEVICE" ] && exit 0
+DAEMONARGS="--pidfile=${PIDFILE} --master=${MASTERFILE} --config=${CONFIGFILE} --daemon --interval=${INTERVAL} --poll=${POLL} --device=${DEVICE}"
+
+case "$1" in
+	start)
+		echo -n "Starting arpflood daemon: vlarp-me-arder"
+  		start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} -- ${DAEMONARGS}
+		echo "."
+  		;;
+	stop)
+		echo -n "Stopping arpflood daemon: vlarp-me-arder"
+  		start-stop-daemon --stop --quiet --pidfile ${PIDFILE}
+		echo "."
+		rm -f /var/run/vlarp-me-arder.pid
+  		;;
+	restart|force-reload)
+		echo -n "Restarting arpflood daemon: vlarp-me-arder... "
+  		start-stop-daemon --stop --quiet --pidfile ${PIDFILE}
+  		sleep 2
+  		start-stop-daemon --start --quiet --exec ${DAEMON} -- ${DAEMONARGS}
+		echo "done."
+  		;;
+	reload)
+		echo "Config file is automagically reloaded. Use restart to change command line parameters." >&2
+		exit 1
+		;;
+	*)
+  		echo "Usage: /etc/init.d/vlarp-me-arder {start|stop|restart|force-reload}"
+  		exit 1
+		;;
+esac
+
+exit 0
